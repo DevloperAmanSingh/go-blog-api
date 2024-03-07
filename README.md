@@ -22,11 +22,18 @@ This is a simple blog API built with Go and Fiber framework, using MongoDB as th
 
 3. Set up environment variables:
 
-   Create a `.env` file in the root directory with the following variables:
+   Rename `.env.example` into `.env` and put down the important credentials.
 
    ```plaintext
-   JWT_SECRET=your_jwt_secret
-   MONGO_URI=your_mongo_uri
+   # Database configuration
+   MONGO_URI=
+   MONGO_DATABASE_NAME=
+
+   # Server configuration
+   SERVER_PORT= 
+
+   # JWT configuration
+   JWT_SECRET=
    ```
 
 4. Start the MongoDB server:
@@ -39,63 +46,5 @@ This is a simple blog API built with Go and Fiber framework, using MongoDB as th
    go run main.go
    ```
 
-## Endpoints
+## Endpoints (To be written soon)
 
-### Add a Post
-
-- **URL:** `/posts`
-- **Method:** `POST`
-- **Request Body:**
-  ```json
-  {
-    "title": "Your Post Title",
-    "body": "Your Post Body"
-  }
-  ```
-- **Authorization:** Bearer token from login endpoint
-- **Response:**
-  ```json
-  {
-    "message": "Post added successfully",
-    "post": {
-      "id": "generated_id",
-      "title": "Your Post Title",
-      "body": "Your Post Body",
-      "username": "author_username"
-    }
-  }
-  ```
-
-### Get All Posts
-
-- **URL:** `/posts`
-- **Method:** `GET`
-- **Response:**
-  ```json
-  [
-    {
-      "id": "post_id",
-      "title": "Post Title",
-      "body": "Post Body",
-      "username": "author_username"
-    },
-    ...
-  ]
-  ```
-
-### Other Endpoints
-
-- `/login`: POST endpoint to authenticate and generate JWT token.
-- `/register`: POST endpoint to register a new user.
-
-## Middleware
-
-- **Auth Middleware:** Validates JWT token and checks if the requested username matches the token username.
-
-## Author
-
-Your Name - [Your Website](https://yourwebsite.com)
-
----
-
-Feel free to expand this README with more details about your project, such as additional endpoints, middleware, and features.
