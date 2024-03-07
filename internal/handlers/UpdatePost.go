@@ -13,14 +13,18 @@ import (
 var posts models.Posts
 
 func UpdatePost(c *fiber.Ctx) error {
-	// get the post id from the request
 	postId := c.Query("id")
 	var err error
-	// Parse request body into a Post struct
 	post := new(models.Posts)
 	if err := c.BodyParser(post); err != nil {
 		return err
 	}
+	if (post.Title == "") || (post.Body == "") {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Title and Body are required",
+		})
+	}
+
 	collection := db.GetPostCollection()
 
 	// now update the post in the database

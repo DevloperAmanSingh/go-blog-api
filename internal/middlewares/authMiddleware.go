@@ -12,7 +12,7 @@ func AuthMiddleware(c *fiber.Ctx) error {
 	cokkie := c.Cookies("token")
 	if cokkie == "" {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-			"message": "Unauthorized",
+			"message": "Unauthorized 1",
 		})
 	}
 
@@ -23,22 +23,26 @@ func AuthMiddleware(c *fiber.Ctx) error {
 	})
 	if err != nil || !token.Valid {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-			"message": "Unauthorized",
+			"message": "Unauthorized 2",
 		})
 	}
 
 	// check if token has expired
 
-	_, ok := token.Claims.(jwt.MapClaims)
+	claims, ok := token.Claims.(jwt.MapClaims)
 	if !ok || !token.Valid {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-			"message": "Unauthorized",
+			"message": "Unauthorized 3",
 		})
 	}
 	/// check if the username in the token is the same as the requested username
-	username := token.Claims.(jwt.MapClaims)["username"].(string)
+	// Extract the username from the token
+	username := claims["username"].(string)
+
+	// Check if the requested username is provided in the query parameter
 	requestedUsername := c.Query("username")
 
+	// If not, check if it's provided in the JSON body
 	if requestedUsername == "" {
 		type RequestBody struct {
 			Username string `json:"username"`

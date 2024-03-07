@@ -14,6 +14,7 @@ import (
 var post models.Posts
 
 func AddPost(c *fiber.Ctx) error {
+	// jwt_secret := os.Getenv("JWT_SECRET")
 	post := new(models.Posts)
 	if err := c.BodyParser(post); err != nil {
 		return err
