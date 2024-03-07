@@ -13,6 +13,12 @@ func SchedulePost(c *fiber.Ctx) error {
 	if err := c.BodyParser(post); err != nil {
 		return err
 	}
+	if (post.Title == "") || (post.Body == "") {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Title and Body are required",
+		})
+	}
+
 	post.ID = primitive.NewObjectID().Hex()
 	_, err := collection.InsertOne(c.Context(), post)
 	if err != nil {

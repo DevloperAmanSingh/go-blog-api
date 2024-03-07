@@ -12,6 +12,11 @@ import (
 func DeletePostById(c *fiber.Ctx) error {
 	var err error
 	postId := c.Query("id")
+	if postId == "" {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Post ID is required",
+		})
+	}
 	collection := db.GetPostCollection()
 	result := collection.FindOne(context.Background(), bson.M{"_id": postId})
 	if result.Err() != nil {

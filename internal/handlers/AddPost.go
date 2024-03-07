@@ -14,11 +14,16 @@ import (
 var post models.Posts
 
 func AddPost(c *fiber.Ctx) error {
-	// Parse request body into a Post struct
 	post := new(models.Posts)
 	if err := c.BodyParser(post); err != nil {
 		return err
 	}
+	if (post.Title == "") || (post.Body == "") {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Title and Body are required",
+		})
+	}
+
 	post.ID = strings.Split(primitive.NewObjectID().String(), "\"")[1]
 	collection := db.GetPostCollection()
 	_, err := collection.InsertOne(context.Background(), post)
