@@ -8,7 +8,7 @@ import (
 )
 
 func AuthMiddleware(c *fiber.Ctx) error {
-	jwt_secret := os.Getenv("JWT_SECRET")
+jwtSecret := os.Getenv("JWT_SECRET")
 	cokkie := c.Cookies("token")
 	if cokkie == "" {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
